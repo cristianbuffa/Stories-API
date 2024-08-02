@@ -1,0 +1,13 @@
+<div class="search">
+  <form class="form">
+    <mat-form-field class="full-width" appearance="outline">
+      <mat-label>Filter</mat-label>
+      <input matInput [formControl]="filterControl" type="text" />
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+  </form>
+</div>
+<ag-grid-angular class="ag-theme-alpine grid-styles" [rowData]="gridData" [columnDefs]="colDefs"
+  [defaultColDef]="defaultColDef" [pagination]="true" [paginationPageSize]="10"
+  [paginationPageSizeSelector]="[10, 20, 50]" (gridReady)="onGridReady($event)" (rowDoubleClicked) = "onRowDoubleClick()">
+</ag-grid-angular>
