@@ -9,5 +9,5 @@
 </div>
 <ag-grid-angular class="ag-theme-alpine grid-styles" [rowData]="gridData" [columnDefs]="colDefs"
   [defaultColDef]="defaultColDef" [pagination]="true" [paginationPageSize]="10"
-  [paginationPageSizeSelector]="[10, 20, 50]" (gridReady)="onGridReady($event)" (rowDoubleClicked) = "onRowDoubleClick()">
+  [paginationPageSizeSelector]="[10, 20, 50]" (gridReady)="onGridReady($event)" (cellClicked)="onCellClicked($event)">
 </ag-grid-angular>

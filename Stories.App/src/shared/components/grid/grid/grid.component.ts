@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ColDef, GridApi, ICellRendererParams, GridReadyEvent } from 'ag-grid-community';
+import { ColDef, GridApi, ICellRendererParams, GridReadyEvent, CellClickedEvent } from 'ag-grid-community';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -45,9 +45,10 @@ export class GridComponent implements OnDestroy {
   onGridReady(params: GridReadyEvent) {
     this.gridApi = params.api;
   }
-
-  onRowDoubleClick() {
-    alert('UnAuthorize User');
+  
+  onCellClicked(event: CellClickedEvent) {
+    if (event.data.url=='')
+      alert('The URL is not working');  
   }
 
   ngOnDestroy(): void {
