@@ -1,6 +1,6 @@
 # Stories - API Rest
 
-This project was generated with [Visual Studio 2022] with a template offered
+This project was generated with [Visual Studio 2022] with a template offered from the IDE
 
 ## Features
 
