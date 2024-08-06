@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Stories.Domain.Interface;
 using Stories.Domain.Request;
+using Stories.Domain.Response;
 
 
 namespace Stories.API;
@@ -24,6 +25,7 @@ public class StoryController : ControllerBase
 
     [HttpGet("GetStories")]
     [ValidateModelState]
+    [ProducesResponseType(typeof(List<GetStoryDetailsResponse>), StatusCodes.Status200OK)]
     public async Task<IActionResult> GetStories([FromQuery] GetStoriesRequest request)
     {
         var response = await _storyService.GetStoriesAsync(request);
@@ -31,7 +33,7 @@ public class StoryController : ControllerBase
     }
 
     [HttpGet("GetStory")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)] 
+    [ProducesResponseType(typeof(GetStoryDetailsResponse), StatusCodes.Status200OK)] 
     public async Task<IActionResult> GetStoryById([FromQuery] int id)
     {
         var response = await _storyService.GetStoryDetailsAsync(id);
