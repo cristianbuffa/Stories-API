@@ -1,6 +1,9 @@
-﻿using Stories.Domain.Interface;
+﻿using Microsoft.Extensions.Logging;
+using Stories.Domain.Exceptions;
+using Stories.Domain.Interface;
 using Stories.Domain.Request;
 using Stories.Domain.Response;
+using Stories.Domain.Validation;
 
 
 namespace Stories.Repository
@@ -10,6 +13,7 @@ namespace Stories.Repository
     {
         private readonly IHnClient _hnClient;
         public const string ClientName = "StoriesApiClient";
+
         public StoryRepository(IHnClient hnClient)
         {
             _hnClient = hnClient;
@@ -27,24 +31,25 @@ namespace Stories.Repository
                     stories = await _hnClient.GetNewestStoriesDetailsAsync(storiesIds);
                 }
             }
-            catch (Exception ex)
+            catch 
             {
-                Console.WriteLine("Error trying to get best stories: " + ex.Message);
+                throw new ApiLegacy404Exception(ValidationMessage.
+               General("ExternalServiceNotFound", "Story Repository fails.", ""));
             }
             return stories;
         }
 
         public async Task<GetStoryDetailsResponse?> GetStoryDetailsAsync(int id)
         {
-            //41059354
             GetStoryDetailsResponse? storyDetails = null;
             try
             {
                 storyDetails = await _hnClient.GetStoryDetailsByIdAsync(id);
             }
-            catch (Exception ex)
+            catch
             {
-                Console.WriteLine("Error trying to story details.");
+                throw new ApiLegacy404Exception(ValidationMessage.
+               General("ExternalServiceNotFound", "Story Repository fails.", ""));
             }
 
             return storyDetails;
