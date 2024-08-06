@@ -17,10 +17,15 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IStoryRepository, StoryRepository>();
 builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IDomainModelValidator, DomainModelValidator>();
-
-
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddLogging(config =>
+{
+    config.AddConsole();
+    config.AddDebug();
+
+});
 
 
 builder.Services.AddSingleton<IHnClient, HnClient>();

@@ -13,10 +13,12 @@ namespace Stories.Repository
     {
         private readonly IHnClient _hnClient;
         public const string ClientName = "StoriesApiClient";
+        private readonly ILogger<StoryRepository> _logger;
 
-        public StoryRepository(IHnClient hnClient)
+        public StoryRepository(IHnClient hnClient, ILogger<StoryRepository> logger)
         {
             _hnClient = hnClient;
+            _logger = logger;
         }
 
         public async Task<List<GetStoryDetailsResponse?>> GetStoriesAsync(GetStoriesRequest request)
@@ -29,6 +31,7 @@ namespace Stories.Repository
                 if (storiesIds != null)
                 {
                     stories = await _hnClient.GetNewestStoriesDetailsAsync(storiesIds);
+                    _logger.LogInformation("Stories recovered");
                 }
             }
             catch 
