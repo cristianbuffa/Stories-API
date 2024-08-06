@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Stories.Domain;
+﻿using Stories.Domain.Request;
+using Stories.Domain.Response;
 
 
-namespace Stories.Domain
+namespace Stories.Domain.Interface
 {
     public interface IHnClient
     {
@@ -16,6 +12,5 @@ namespace Stories.Domain
 
         Task<GetStoryDetailsResponse?> GetStoryDetailsByIdAsync(int id);
 
-        Task<List<GetUsersDetailsResponse?>> GetUsersDetailsAsync();
     }
 }

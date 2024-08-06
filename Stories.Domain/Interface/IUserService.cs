@@ -1,5 +1,4 @@
-﻿
-namespace Stories.Domain
+﻿namespace Stories.Domain.Interface
 {
     public interface IUserService
     {

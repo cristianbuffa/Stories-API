@@ -1,9 +1,8 @@
-using System;
 using System.Collections;
 using System.ComponentModel.DataAnnotations;
 
 
-namespace Stories.Domain
+namespace Stories.Domain.Validation
 {
     public interface IDomainModelValidator
     {

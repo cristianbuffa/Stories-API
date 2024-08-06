@@ -1,11 +1,10 @@
 
 using Stories.Service;
-using Stories.Domain;
 using Stories.Infrastructure;
 using Stories.Repository;
 using Stories.API;
-using Microsoft.AspNetCore.Authentication;
-
+using Stories.Domain.Validation;
+using Stories.Domain.Interface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +32,9 @@ builder.Services.AddHttpClient(HnClient.ClientName, httpClient =>
 
 builder.Services.AddAuthentication();
 var app = builder.Build();
+
+
+
 app.UseHttpsRedirection();
 
 app.UseCors(applicationBuilder =>
@@ -48,6 +50,14 @@ app.UseMiddleware<ExceptionHandlerMiddleware>();
 
 
 app.MapControllers();
+
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.Run();
 

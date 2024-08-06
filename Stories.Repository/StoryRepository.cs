@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Stories.Domain;
+﻿using Stories.Domain.Interface;
+using Stories.Domain.Request;
+using Stories.Domain.Response;
 
 
-namespace Stories.Repository 
+namespace Stories.Repository
 {
 
     public class StoryRepository : IStoryRepository
@@ -24,12 +21,10 @@ namespace Stories.Repository
             var storiesIds = await _hnClient.GetNewestStoriesAsync(request);
 
             try
-            {
-               
+            {             
                 if (storiesIds != null)
                 {
                     stories = await _hnClient.GetNewestStoriesDetailsAsync(storiesIds);
-                    
                 }
             }
             catch (Exception ex)
@@ -53,21 +48,6 @@ namespace Stories.Repository
             }
 
             return storyDetails;
-        }
-
-        public async Task<List<GetUsersDetailsResponse?>> GetUsersAsync()
-        {
-            List<GetUsersDetailsResponse?> usersDetails = new();
-            try
-            {
-                usersDetails = await _hnClient.GetUsersDetailsAsync();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine("Error trying to users details.");
-            }
-
-            return usersDetails!;
         }
     }
 }

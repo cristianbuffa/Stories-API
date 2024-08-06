@@ -1,8 +1,10 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using Stories.Domain;
 using Stories.Domain.Exceptions;
+using Stories.Domain.Interface;
+using Stories.Domain.Request;
+using Stories.Domain.Response;
 using Stories.Domain.Validation;
-using System;
 
 namespace Stories.Service;
 public class StoryService : IStoryService
@@ -20,10 +22,9 @@ public class StoryService : IStoryService
 
     public async Task<List<GetStoryDetailsResponse?>> GetStoriesAsync(GetStoriesRequest request)
     {
-        // solo las url activas
-        this._domainModelValidator.ValidateRecursive(request);
+        Validate(request);
         var dataCached = _cache.Get<List<GetStoryDetailsResponse>>("storiesList");
-        if (dataCached is not null) 
+        if (dataCached is not null && dataCached!.Count == request.Limit) 
             return dataCached!;
 
         var stories = await _cache.GetOrCreateAsync("storiesList", async entry =>
@@ -32,16 +33,14 @@ public class StoryService : IStoryService
             var storiesList = await _storyRepository.GetStoriesAsync(request);
             return storiesList;
         });
+
+
+
         if (stories == null)
             throw new ApiValidationException(ValidationMessage.
                 General("StoriesNotFound", "The stories have not been recovered.", null));
 
         return stories!;
-    }
-
-    public async Task<List<GetUsersDetailsResponse?>> GetUsersAsync()
-    {
-       return await _storyRepository.GetUsersAsync();
     }
 
     public async Task<GetStoryDetailsResponse?> GetStoryDetailsAsync(int id)
@@ -52,6 +51,18 @@ public class StoryService : IStoryService
             throw new ApiLegacy404Exception(ValidationMessage.
                 General("StoryNotFound", "The story have not been recovered.", null));
         return story;
+    }
+
+    private void Validate(GetStoriesRequest request)
+    {
+        this._domainModelValidator.ValidateRecursive(request);
+        string valueValidator = OrderType.Priority.ToString();
+        if (request.OrderBy.ToLower() !=  valueValidator.ToLower())
+            throw new ApiLegacy404Exception(ValidationMessage.
+                General("StoriesNotFound", "The Order by parameter is not able", null));
+
+
+
     }
 
 }

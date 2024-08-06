@@ -16,11 +16,11 @@ public class StoryController : ControllerBase
         _storyService = storyService;
     }
 
-    [HttpGet]
-    public async Task<IActionResult> Index()
-    {
-        return Ok();
-    }
+    //[HttpGet]
+    //public async Task<IActionResult> Index()
+    //{
+    //    return Ok();
+    //}
 
     [HttpGet("GetStories")]
     [ValidateModelState]
@@ -31,15 +31,10 @@ public class StoryController : ControllerBase
     }
 
     [HttpGet("GetStory")]
-    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-  
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)] 
     public async Task<IActionResult> GetStoryById([FromQuery] int id)
     {
         var response = await _storyService.GetStoryDetailsAsync(id);
-
-        //if (response == null)
-        //    return NotFound($"Story with Id: {id} not found.");
-
         return Ok(response);
     }
 

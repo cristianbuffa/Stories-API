@@ -1,12 +1,7 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
+﻿using Microsoft.AspNetCore.Mvc;
 using Stories.API.Helper;
-using Stories.Domain;
-using System.Reflection;
-using System.Security.Claims;
-using System.Text;
+using Stories.Domain.Interface;
+
 
 namespace Stories.API.Controllers
 {

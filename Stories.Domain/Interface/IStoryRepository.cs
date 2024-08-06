@@ -1,11 +1,13 @@
-﻿namespace Stories.Domain
+﻿using Stories.Domain.Request;
+using Stories.Domain.Response;
+
+namespace Stories.Domain.Interface
 {
-    public interface IStoryService
+    public interface IStoryRepository
     {
         Task<List<GetStoryDetailsResponse?>> GetStoriesAsync(GetStoriesRequest request);
-
         Task<GetStoryDetailsResponse?> GetStoryDetailsAsync(int id);
-
-        Task<List<GetUsersDetailsResponse?>> GetUsersAsync();
     }
+
 }
+

@@ -1,6 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Stories.Domain
+﻿
+namespace Stories.Domain.Response
 {
     public class GetStoryDetailsResponse
     {

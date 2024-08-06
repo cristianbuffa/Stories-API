@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
 using Stories.Domain.Validation;
 
 namespace Stories.Domain.Exceptions
@@ -13,22 +13,15 @@ namespace Stories.Domain.Exceptions
             {
             }
 
-        /// <summary>
-        /// Creates a new instance of ApiValidationException with a several validation messages
-        /// </summary>
-        /// <param name="messages">The validation messages (must not be null)</param>
         public ApiLegacy404Exception(
             ICollection<ValidationMessage> messages)
-            : base(message: string.Join(", ", messages.Select(m => m.Message)))
+            : base (message: string.Join(", ", messages.Select(m => m.Message)))
         {
             Messages = messages.ToArray();
 
-            Data["messages"] = JsonConvert.SerializeObject(Messages);
+            Data["messages"] = JsonSerializer.Serialize(Messages);
         }
 
-        /// <summary>
-        /// Get the messages for the validation exception
-        /// </summary>
         public ValidationMessage[] Messages { get; }
     }
 }

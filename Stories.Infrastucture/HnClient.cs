@@ -1,6 +1,9 @@
-﻿using System.Net.Http;
-using System.Net.Http.Json;
-using Stories.Domain;
+﻿using System.Net.Http.Json;
+using System.Reflection;
+using System.Runtime.CompilerServices;
+using Stories.Domain.Interface;
+using Stories.Domain.Request;
+using Stories.Domain.Response;
 
 namespace Stories.Infrastructure;
 public class HnClient : IHnClient
@@ -10,14 +13,11 @@ public class HnClient : IHnClient
 
     public HnClient(IHttpClientFactory httpClientFactory)
     {
-        _httpClientFactory = httpClientFactory;
-    }
+        _httpClientFactory = httpClientFactory;    }
 
     public async Task<List<int>?> GetNewestStoriesAsync(GetStoriesRequest request)
     {
         var client = _httpClientFactory.CreateClient(ClientName);
-        var uri = $"newstories.json?print=pretty&orderBy=\"${request.OrderBy}\"&limitToFirst={request.Limit}";
-
         var response = await client.GetAsync(
             $"newstories.json?print=pretty&orderBy=\"${request.OrderBy}\"&limitToFirst={request.Limit}");
 
@@ -26,48 +26,32 @@ public class HnClient : IHnClient
 
         return storiesIds;
     }
-
     public async Task<List<GetStoryDetailsResponse?>> GetNewestStoriesDetailsAsync(List<int> storiesIds)
     {
-        List<GetStoryDetailsResponse?> stories = new();
-
-        var client = _httpClientFactory.CreateClient(ClientName);
-
-        var tasks = storiesIds.Select(async storyId =>
+        
+        using (var client = _httpClientFactory.CreateClient(ClientName))
         {
-            var detailResponse = await client.GetAsync($"item/{storyId}.json?print=pretty");
-            var detail = await detailResponse.Content.ReadFromJsonAsync<GetStoryDetailsResponse>();
-            detail!.id = storyId;
-            return detail;
-        });
-
-        var details = await Task.WhenAll(tasks);
-
-        stories.AddRange(details.Where(detail => detail != null));
-
-        return stories;
+            List<GetStoryDetailsResponse?> stories = new();
+            var tasks = storiesIds.Select(async storyId =>
+            {
+                var detail = await GetStoryDetailsByIdAsync(storyId);
+                return detail;
+            });
+            var details = await Task.WhenAll(tasks);
+            stories.AddRange(details.Where(detail => detail != null));
+            return stories;
+        } 
     }
 
     public async Task<GetStoryDetailsResponse?> GetStoryDetailsByIdAsync(int id)
     {
-        var client = _httpClientFactory.CreateClient(ClientName);
+        using (var client = _httpClientFactory.CreateClient(ClientName))
+        {
+            var response = await client.GetAsync($"item/{id}.json?print=pretty");
+            GetStoryDetailsResponse? storyDetails = await response.Content.ReadFromJsonAsync<GetStoryDetailsResponse>();
+            return storyDetails;
+        }
 
-        var response = await client.GetAsync($"item/{id}.json?print=pretty");
-
-        GetStoryDetailsResponse? storyDetails = await response.Content.ReadFromJsonAsync<GetStoryDetailsResponse>();
-
-        return storyDetails;
     }
 
-    public async Task<List<GetUsersDetailsResponse?>> GetUsersDetailsAsync()
-    {
-        var client = _httpClientFactory.CreateClient(ClientName);
-
-        var response = await client.GetAsync($"user/jl.json?print=pretty");
-
-        var usersDetails = await response.Content.ReadFromJsonAsync<List<GetUsersDetailsResponse>>();
-
-        return usersDetails!;
-        //https://hacker-news.firebaseio.com/v0/user/jl.json?print=pretty
-    }
 }

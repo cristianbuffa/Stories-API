@@ -1,4 +1,5 @@
 ﻿using Stories.Domain;
+using Stories.Domain.Interface;
 
 namespace Stories.Repository
 {

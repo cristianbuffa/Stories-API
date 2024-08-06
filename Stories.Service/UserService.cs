@@ -1,5 +1,6 @@
 ﻿using Stories.Domain;
 using Stories.Domain.Exceptions;
+using Stories.Domain.Interface;
 using Stories.Domain.Validation;
 
 namespace Stories.Service
