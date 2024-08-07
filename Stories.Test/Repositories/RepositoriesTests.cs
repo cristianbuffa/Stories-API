@@ -6,6 +6,7 @@ using Stories.Domain.Interface;
 using Microsoft.Extensions.Logging;
 using Stories.Domain.Request;
 using Stories.Domain.Response;
+using Stories.Service;
 
 namespace Stories.Test.Repositories;
 
@@ -21,6 +22,18 @@ public class RepositoriesTests
         _hnClient = Substitute.For<IHnClient>();
 
         _storyRepository = new StoryRepository(_hnClient, null!);
+    }
+
+    [Test]
+    public async Task GetStoriesAsync_Success()
+    {
+        // Arrange
+        var request = new GetStoriesRequest { Limit = 1, OrderBy = "Priority" };
+        // Act
+        var storiesId = _hnClient.GetNewestStoriesAsync(request)
+            .Returns(new List<int>(new int[] { 1 }));
+        // Assert
+        Assert.That(storiesId, Is.Not.Null);
     }
 
     [Test]
