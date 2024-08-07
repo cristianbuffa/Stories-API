@@ -13,7 +13,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { GridComponent } from '../shared/components/grid/grid/grid.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { LoginPageComponent } from './login-page/login-page.component';
 import {ErrorMessageComponent} from './error-message/error-message.component';
 
 
@@ -21,8 +20,7 @@ import {ErrorMessageComponent} from './error-message/error-message.component';
   declarations: [
     AppComponent,
     GridComponent,
-    ErrorMessageComponent,
-    LoginPageComponent
+    ErrorMessageComponent
   ],
   imports: [
     BrowserModule,

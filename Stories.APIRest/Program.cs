@@ -13,9 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 
 builder.Services.AddTransient<IStoryService, StoryService>();
-builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IStoryRepository, StoryRepository>();
-builder.Services.AddTransient<IUserRepository, UserRepository>();
 builder.Services.AddTransient<IDomainModelValidator, DomainModelValidator>();
 builder.Services.AddMemoryCache();
 builder.Services.AddHttpContextAccessor();

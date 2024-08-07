@@ -24,7 +24,7 @@ describe('StoriesService', () => {
   });
 
   it('getStories should return', () => {
-    const request = {orderBy: 'priority', limit: 200}
+    const request = {orderBy: 'priority', limit: 50}
     let response: Story[] = [{
       title: 'title',
       url: 'url'
@@ -42,4 +42,5 @@ describe('StoriesService', () => {
     expect(req.request.method).toBe('GET');
     req.flush(response);
   });
+
 });
