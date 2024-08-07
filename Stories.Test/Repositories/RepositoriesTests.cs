@@ -29,11 +29,11 @@ public class RepositoriesTests
     {
         // Arrange
         var request = new GetStoriesRequest { Limit = 1, OrderBy = "Priority" };
-        // Act
-        var storiesId = _hnClient.GetNewestStoriesAsync(request)
-            .Returns(new List<int>(new int[] { 1 }));
+        //
+        var stories = await _storyRepository.GetStoriesAsync(request);
+
         // Assert
-        Assert.That(storiesId, Is.Not.Null);
+        Assert.That(stories, Is.Not.Null);
     }
 
     [Test]
