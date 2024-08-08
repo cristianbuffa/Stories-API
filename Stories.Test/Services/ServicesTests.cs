@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Memory;
 using NSubstitute;
 using NUnit.Framework;
+using Stories.Domain.Exceptions;
 using Stories.Domain.Interface;
 using Stories.Domain.Request;
 using Stories.Domain.Response;

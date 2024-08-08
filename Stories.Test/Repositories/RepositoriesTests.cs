@@ -1,12 +1,13 @@
 ﻿using NSubstitute;
 using NUnit.Framework;
 using Stories.Repository;
-using Stories.Domain;
 using Stories.Domain.Interface;
-using Microsoft.Extensions.Logging;
 using Stories.Domain.Request;
 using Stories.Domain.Response;
-using Stories.Service;
+using NSubstitute.ExceptionExtensions;
+using Stories.Domain.Exceptions;
+using Stories.Domain.Validation;
+
 
 namespace Stories.Test.Repositories;
 
@@ -36,11 +37,25 @@ public class RepositoriesTests
         Assert.That(stories, Is.Not.Null);
     }
 
+
+    [Test]
+    public async Task GetStoriesAsync_NotSuccess()
+    {
+        // Arrange
+        var request = new GetStoriesRequest { Limit = 0, OrderBy = "fakeorder" };
+        //
+        var stories = await _storyRepository.GetStoriesAsync(request);
+
+        // Assert
+        Assert.Throws<ApiLegacy404Exception>(
+       () => throw new ApiLegacy404Exception(ValidationMessage.
+               General("ExternalServiceNotFound", "Story Repository fails.", "")));
+    }
+
     [Test]
     public async Task GetStoryDetailsByIdAsync_Success()
     {
         // Arrange
-        var request = new GetStoriesRequest { Limit = 50, OrderBy = "Priority" };
 
         _hnClient.GetStoryDetailsByIdAsync(1).Returns(new GetStoryDetailsResponse()
         {
@@ -59,8 +74,6 @@ public class RepositoriesTests
     public async Task GetStoryDetailsByIdAsync_NotSuccess()
     {
         // Arrange
-        var request = new GetStoriesRequest { Limit = 50, OrderBy = "orderBy" };
-
         _hnClient.GetStoryDetailsByIdAsync(1).Returns(new GetStoryDetailsResponse()
         {
             Title = "title",
