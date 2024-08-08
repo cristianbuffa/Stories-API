@@ -4,7 +4,6 @@ using Stories.Repository;
 using Stories.Domain.Interface;
 using Stories.Domain.Request;
 using Stories.Domain.Response;
-using NSubstitute.ExceptionExtensions;
 using Stories.Domain.Exceptions;
 using Stories.Domain.Validation;
 
