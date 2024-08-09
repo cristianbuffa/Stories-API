@@ -17,6 +17,11 @@ public class StoryController : ControllerBase
         _storyService = storyService;
     }
 
+    public Task<IActionResult> Index()
+    {
+        return Task.FromResult<IActionResult>(Ok());
+    }
+
     [HttpGet("GetStories")]
     [ValidateModelState]
     [ProducesResponseType(typeof(List<GetStoryDetailsResponse>), StatusCodes.Status200OK)]

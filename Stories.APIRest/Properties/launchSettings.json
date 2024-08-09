@@ -9,12 +9,22 @@
     }
   },
   "profiles": {
-    "Stories.APIRest": {
+    "Stories.APIRest.swagger": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": true,
       "launchUrl": "swagger",
       "applicationUrl": "http://localhost:5165",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      }
+    },
+    "Stories.APIRest": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "launchBrowser": true,
+      "launchUrl": "stories-api/Story",
+      "applicationUrl": "http://localhost:5079",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

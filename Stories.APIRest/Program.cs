@@ -16,7 +16,6 @@ builder.Services.AddTransient<IStoryService, StoryService>();
 builder.Services.AddTransient<IStoryRepository, StoryRepository>();
 builder.Services.AddTransient<IDomainModelValidator, DomainModelValidator>();
 builder.Services.AddMemoryCache();
-builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddLogging(config =>
 {
@@ -24,7 +23,6 @@ builder.Services.AddLogging(config =>
     config.AddDebug();
 
 });
-
 
 builder.Services.AddSingleton<IHnClient, HnClient>();
 
@@ -34,7 +32,6 @@ builder.Services.AddHttpClient(HnClient.ClientName, httpClient =>
 {
     httpClient.BaseAddress = new Uri(configSettings!.BaseUrl);
 });
-
 
 builder.Services.AddSwaggerGen();
 
@@ -46,6 +43,16 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(applicationBuilder =>
+{
+    applicationBuilder.AllowAnyMethod();
+    applicationBuilder.AllowAnyHeader();
+    applicationBuilder.AllowCredentials();
+    applicationBuilder.SetIsOriginAllowed(_ => true);
+});
+
+
 app.UseMiddleware<ExceptionHandlerMiddleware>();
 app.UseAuthorization();
 
